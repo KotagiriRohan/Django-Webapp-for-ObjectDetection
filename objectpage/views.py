@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .forms import *
+from  .objectdetectionmodel import *
 # Create your views here.
 def home(request):
     context = {'image' : '', 'flag' : False}
@@ -9,7 +10,9 @@ def home(request):
         if form.is_valid():
             form.save()
             img_obj = form.instance
-            
-            
-            return render(request, 'home.html', {'form': form, 'img_obj': img_obj})
+            ObjectDetectionModel('D:/Django/ObjectDetection' + img_obj.image.url)
+            mask = '/media/processedimg/Mask.jpg'
+            detect = '/media/processedimg/Detect.jpg'
+            final = '/media/processedimg/Final.jpg'
+            return render(request, 'home.html', {'form': form, 'img_obj': img_obj, 'mask': mask, 'final': final, 'detect': detect})
     return render(request, 'home.html', {'form': form})
